@@ -1,11 +1,6 @@
 
 include <config.scad>;
 
-top_fold_h = 19;
-top_holder_flap_height = 20;
-side_fold_h = 20;
-bottom_flap_height = 10;
-
 module part1()
 {
     x = 0;
@@ -13,12 +8,19 @@ module part1()
 
     // Top plane flap
     x1 = x;
-    y1 = y + box_x + side_fold_h + 2*spacing;
+    y1 = y + box_x + side_flap_height + 2*spacing;
     translate([x1, y1])
-    square([top_fold_h, box_y]);
+    polygon([
+        [0, 10],
+        [0, box_y - 10],
+        [10, box_y],
+        [top_flap_height, box_y],
+        [top_flap_height, 0],
+        [10, 0]
+        ]);
 
     // Top plane
-    x2 = x1 + top_fold_h + spacing;
+    x2 = x1 + top_flap_height + spacing;
     translate([x2, y1])
     square([box_x, box_y]);
 
@@ -30,7 +32,12 @@ module part1()
     // Flap from back plane to bottom
     x4 = x3 + box_z + spacing;
     translate([x4, y1])
-    square([bottom_flap_height, box_y]);
+    polygon([
+        [0, 0],
+        [0, box_y],
+        [bottom_flap_height, box_y - 10],
+        [bottom_flap_height, 10]
+        ]);
 
     // Left side plane
     y2 = y1 - spacing - box_x;
@@ -40,15 +47,32 @@ module part1()
     // Flap from left side to top
     x5 = x3 - spacing - top_holder_flap_height;
     translate([x5, y2])
-    square([top_holder_flap_height, box_x]);
+    polygon([
+        [0, 10],
+        [0, box_x - 10],
+        [10, box_x],
+        [top_holder_flap_height, box_x],
+        [top_holder_flap_height, 0],
+        [10, 0]
+        ]);
 
     // Flap from left side to front side
     translate([x3, y])
-    square([box_z, side_fold_h]);
+    polygon([
+        [10, 0],
+        [0, side_flap_height],
+        [box_z, side_flap_height],
+        [box_z - 10, 0]
+        ]);
 
     // Flap from left side to bottom
     translate([x4, y2])
-    square([bottom_flap_height, box_x]);
+    polygon([
+        [0, 0],
+        [0, box_y],
+        [bottom_flap_height, box_y - 10],
+        [bottom_flap_height, 10]
+        ]);
 
     // Right side plane
     y3 = y1 + box_y + spacing;
@@ -57,11 +81,33 @@ module part1()
 
     // Flap from right side to top
     translate([x5, y3])
-    square([top_holder_flap_height, box_x]);
+    polygon([
+        [0, 10],
+        [0, box_x - 10],
+        [10, box_x],
+        [top_holder_flap_height, box_x],
+        [top_holder_flap_height, 0],
+        [10, 0]
+        ]);
 
     // Flap from right side to bottom
     translate([x4, y3])
-    square([bottom_flap_height, box_x]);
+    polygon([
+        [0, 0],
+        [0, box_y],
+        [bottom_flap_height, box_y - 10],
+        [bottom_flap_height, 10]
+        ]);
+
+    // Flap from right side to front
+    y4 = y3 + box_x + spacing;
+    translate([x3, y4])
+    polygon([
+        [0, 0],
+        [10, side_flap_height],
+        [box_z - 10, side_flap_height],
+        [box_z, 0]
+        ]);
 }
 
 part1();
