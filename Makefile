@@ -13,9 +13,12 @@ all: $(PDFS)
 	cat temp.svg \
 	  | sed \
 		-e "s/fill=\"lightgray\"/fill=\"none\"/" \
-		 -e "s/svg width=\"[0-9]*mm\" height=\"[0-9]*mm\"/svg width=\"210mm\" height=\"297mm\"/" \
 		> $@
 	@rm temp.svg
+
+
+#		 -e "s/svg width=\"[0-9]*mm\" height=\"[0-9]*mm\"/svg width=\"210mm\" height=\"297mm\"/" \
+#		 -e "s/svg width=\"[0-9]*mm\" height=\"[0-9]*mm\" viewbox=\"[0-9 -]*\"/svg width=\"210mm\" height=\"297mm\" viewBox=\"0 -297 210 297\"/" \
 
 %.pdf: %.svg
 	inkscape $^ --export-pdf=$@
